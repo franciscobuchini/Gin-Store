@@ -2,6 +2,16 @@
 
 @theme {
   --breakpoint-xs: 480px;
+  --color-gold-50: #fbfbf4;
+  --color-gold-100: #f5f3e1;
+  --color-gold-200: #ebe5c0;
+  --color-gold-300: #ddd094;
+  --color-gold-400: #cbb463;
+  --color-gold-500: #b99a41;
+  --color-gold-600: #a17f35;
+  --color-gold-700: #81612d;
+  --color-gold-800: #6a4f2a;
+  --color-gold-900: #5b4428;
 }
 
 :root {

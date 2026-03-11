@@ -1,53 +1,43 @@
-import { Facebook, Instagram, Music2 } from 'lucide-react';
+import { Icon } from '@iconify/react';
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-neutral-200 py-12 md:py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center text-center space-y-10">
+    <footer className="py-16 bg-neutral-950 text-white mt-auto border-t border-neutral-800">
+      <div className="w-full px-8 md:px-12">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-12">
           
-          {/* Logo Section */}
-          <div className="space-y-1">
-            <span className="text-2xl font-bold text-neutral-900 tracking-tight">
-              GinStore
-            </span>
-            <p className="text-neutral-400 text-[10px] uppercase tracking-[0.2em] font-medium">Premium Distillery</p>
-          </div>
-          
-          {/* Social Links Section - Solid Colors, No Fantasy */}
-          <div className="flex flex-wrap justify-center gap-4">
-            {/* Instagram */}
-            <a 
-              href="#" 
-              className="flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-neutral-900 text-white hover:bg-neutral-800 transition-colors"
-            >
-              <Instagram size={20} />
-              <span className="text-sm font-semibold">Instagram</span>
-            </a>
-
-            {/* Facebook */}
-            <a 
-              href="#" 
-              className="flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-neutral-900 text-white hover:bg-neutral-800 transition-colors"
-            >
-              <Facebook size={20} fill="currentColor" />
-              <span className="text-sm font-semibold">Facebook</span>
-            </a>
-
-            {/* Tik Tok */}
-            <a 
-              href="#" 
-              className="flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-neutral-900 text-white hover:bg-neutral-800 transition-colors"
-            >
-              <Music2 size={20} />
-              <span className="text-sm font-semibold">TikTok</span>
-            </a>
+          {/* Social Media Section - Left Aligned */}
+          <div className="flex flex-col items-center md:items-start space-y-4">
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gold-500/80">Seguinos</span>
+            <div className="flex items-center gap-4">
+              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-pink-600 shadow-xl shadow-black/20 hover:shadow-pink-600/20">
+                <Icon icon="ph:instagram-logo-fill" width="22" height="22" />
+              </a>
+              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-blue-600 shadow-xl shadow-black/20 hover:shadow-blue-600/20">
+                <Icon icon="ph:facebook-logo-fill" width="22" height="22" />
+              </a>
+              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-white hover:text-black shadow-xl shadow-black/20">
+                <Icon icon="ph:tiktok-logo-fill" width="22" height="22" />
+              </a>
+              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-green-600 shadow-xl shadow-black/20 hover:shadow-green-600/20">
+                <Icon icon="ph:whatsapp-logo-fill" width="22" height="22" />
+              </a>
+            </div>
           </div>
 
-          {/* Final Copyright */}
-          <p className="text-[10px] text-neutral-300 font-medium tracking-tight">
-            © 2024 GINSTORE. ALL RIGHTS RESERVED.
-          </p>
+          {/* Logo & Copyright Section - Right Aligned on Desktop */}
+          <div className="flex flex-col items-center md:items-end text-center md:text-right space-y-4">
+            <div className="space-y-1">
+              <span className="text-2xl font-black text-white tracking-tighter italic">
+                Gin sin nombre
+              </span>
+              <p className="text-gold-500/80 text-[10px] uppercase tracking-[0.4em] font-medium">Destilería Premium</p>
+            </div>
+            <p className="text-[10px] text-neutral-500 font-medium tracking-tight uppercase">
+              © 2024 Gin sin nombre. Todos los derechos reservados.
+            </p>
+          </div>
+
         </div>
       </div>
     </footer>
