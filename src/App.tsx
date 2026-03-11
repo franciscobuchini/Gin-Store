@@ -1,101 +1,138 @@
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import GinCard from './components/GinCard'
+import Home from './pages/Home'
+import Checkout from './pages/Checkout'
+import { useCart } from './hooks/useCart'
 
-// Importación de imágenes de las botellas
-import gin1 from './assets/1.webp'
-import gin2 from './assets/2.webp'
-import gin3 from './assets/3.webp'
-import gin4 from './assets/4.webp'
-import gin5 from './assets/5.webp'
+function AppContent() {
+  const {
+    cart,
+    isCartOpen,
+    setIsCartOpen,
+    removeFromCart,
+    updateQuantity,
+    cartTotal,
+    cartCount
+  } = useCart();
+  const navigate = useNavigate();
 
-const GIN_PRODUCTS = [
-  {
-    id: 1,
-    name: "Gin Heredero",
-    image: gin1,
-    price: 4500,
-    ml: 750,
-    flavor: "Enebro intenso con notas cítricas de bergamota y un final especiado."
-  },
-  {
-    id: 2,
-    name: "London Dry Gin",
-    image: gin2,
-    price: 5200,
-    ml: 700,
-    flavor: "Infusión de pétalos de rosa y frutos rojos, dulce y suave al paladar."
-  },
-  {
-    id: 3,
-    name: "Gordon's Gin",
-    image: gin3,
-    price: 4800,
-    ml: 750,
-    flavor: "Explosión de lima, limón siciliano y un toque de jengibre fresco."
-  },
-  {
-    id: 4,
-    name: "Royale Gin",
-    image: gin4,
-    price: 5500,
-    ml: 750,
-    flavor: "Mezcla secreta de hierbas serranas, romero y un toque de cardamomo."
-  },
-  {
-    id: 5,
-    name: "Malaria Gin",
-    image: gin5,
-    price: 6000,
-    ml: 700,
-    flavor: "Destilado con botánicos marinos y pimienta rosa, con un toque salino único."
-  }
-];
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    navigate('/checkout');
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen bg-neutral-50 font-sans selection:bg-emerald-100 selection:text-emerald-900">
+      <Navbar 
+        cartCount={cartCount} 
+        onCartClick={() => setIsCartOpen(true)} 
+      />
+      
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/checkout" element={<Checkout />} />
+      </Routes>
+
+      <Footer />
+
+      {/* Cart Drawer Overlay */}
+      {isCartOpen && (
+        <div className="fixed inset-0 z-[60] flex justify-end">
+          <div 
+            className="absolute inset-0 bg-neutral-900/40 backdrop-blur-sm transition-opacity"
+            onClick={() => setIsCartOpen(false)}
+          />
+          <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="p-6 border-b border-neutral-100 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-neutral-900">Tu Carrito</h2>
+              <button 
+                onClick={() => setIsCartOpen(false)}
+                className="text-neutral-400 hover:text-neutral-900 p-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+
+            <div className="flex-grow overflow-y-auto p-6 space-y-6">
+              {cart.length === 0 ? (
+                <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
+                  <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center text-neutral-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                  </div>
+                  <div>
+                    <p className="text-neutral-900 font-bold text-lg">Tu carrito está vacío</p>
+                    <p className="text-neutral-500 text-sm">¿Todavía no has elegido tu gin favorito?</p>
+                  </div>
+                </div>
+              ) : (
+                cart.map((item) => (
+                  <div key={item.id} className="flex gap-4">
+                    <div className="w-20 h-20 bg-neutral-100 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center p-2">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
+                    </div>
+                    <div className="flex-grow">
+                      <div className="flex justify-between">
+                        <h3 className="font-bold text-neutral-900">{item.name}</h3>
+                        <button 
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-neutral-400 hover:text-red-500 transition-colors"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                        </button>
+                      </div>
+                      <p className="text-sm text-neutral-500">{item.ml}ml</p>
+                      <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-center border border-neutral-200 rounded-lg overflow-hidden">
+                          <button 
+                            onClick={() => updateQuantity(item.id, -1)}
+                            className="px-2 py-1 hover:bg-neutral-50 text-neutral-600"
+                          >
+                            -
+                          </button>
+                          <span className="px-3 py-1 text-sm font-medium border-x border-neutral-200">{item.quantity}</span>
+                          <button 
+                            onClick={() => updateQuantity(item.id, 1)}
+                            className="px-2 py-1 hover:bg-neutral-50 text-neutral-600"
+                          >
+                            +
+                          </button>
+                        </div>
+                        <span className="font-bold text-neutral-900">${(item.price * item.quantity).toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            {cart.length > 0 && (
+              <div className="p-6 border-t border-neutral-100 bg-neutral-50 space-y-4">
+                <div className="flex items-center justify-between text-lg">
+                  <span className="text-neutral-600">Total</span>
+                  <span className="font-black text-neutral-900">${cartTotal.toLocaleString()}</span>
+                </div>
+                <button 
+                  onClick={handleCheckout}
+                  className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-500/20 transition-all active:scale-[0.98]"
+                >
+                  Finalizar Compra
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-neutral-50 font-sans selection:bg-emerald-100 selection:text-emerald-900">
-      <Navbar />
-      
-      <main className="flex-grow pt-20 md:pt-28 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Hero Section Simplified */}
-          <div className="text-center mb-12 md:mb-20">
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight bg-gradient-to-r from-blue-600 via-emerald-600 to-blue-600 bg-clip-text text-transparent animate-gradient-x py-2 leading-tight">
-              GinStore
-            </h1>
-            <p className="mt-4 md:mt-6 text-neutral-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed px-4">
-              Selección exclusiva de gines artesanales. Destilados con pasión, diseñados para el paladar más exigente.
-            </p>
-          </div>
-
-          {/* Section Divider/Title */}
-          <div className="flex items-center justify-between mb-8 px-2">
-            <h2 className="text-xl md:text-2xl font-bold text-neutral-900">Nuestras Botellas</h2>
-            <div className="h-px flex-grow mx-4 bg-neutral-200 hidden sm:block"></div>
-            <button className="text-sm font-semibold text-emerald-600 hover:text-emerald-700">Filtrar</button>
-          </div>
-
-          {/* Product Grid Responsive */}
-          <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-            {GIN_PRODUCTS.map((product) => (
-              <GinCard 
-                key={product.id}
-                image={product.image}
-                name={product.name}
-                price={product.price}
-                ml={product.ml}
-                flavor={product.flavor}
-              />
-            ))}
-          </div>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
-  )
+    <Router>
+      <AppContent />
+    </Router>
+  );
 }
 
 export default App

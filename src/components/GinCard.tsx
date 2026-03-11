@@ -1,14 +1,14 @@
 import { Plus } from 'lucide-react';
+import type { Product } from '../types/product';
 
 interface GinProductProps {
-  image: string;
-  name: string;
-  price: number;
-  ml: number;
-  flavor: string;
+  product: Product;
+  onAddToCart: () => void;
 }
 
-export default function GinCard({ image, name, price, ml, flavor }: GinProductProps) {
+export default function GinCard({ product, onAddToCart }: GinProductProps) {
+  const { image, name, price, ml, flavor } = product;
+  
   return (
     <div className="group relative bg-white border border-neutral-200 rounded-xl overflow-hidden hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/5">
       {/* Product Image */}
@@ -39,7 +39,10 @@ export default function GinCard({ image, name, price, ml, flavor }: GinProductPr
           <span className="text-lg font-bold text-neutral-900">
             ${price.toLocaleString()}
           </span>
-          <button className="flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white w-8 h-8 rounded-lg font-semibold transition-all active:scale-95 shadow-sm shadow-emerald-500/20">
+          <button 
+            onClick={onAddToCart}
+            className="flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white w-8 h-8 rounded-lg font-semibold transition-all active:scale-95 shadow-sm shadow-emerald-500/20"
+          >
             <Plus size={16} />
           </button>
         </div>
