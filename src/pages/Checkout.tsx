@@ -5,7 +5,9 @@ import { Checkbox } from '../components/Checkbox';
 import FreeShippingProgress from '../components/FreeShippingProgress';
 import { formatPrice } from '../utils/format';
 import { Button } from '../components/Button';
-import { ShoppingCart, Ticket, Phone } from 'lucide-react';
+import { ShoppingCart, Ticket } from 'lucide-react';
+
+import { Icon } from '@iconify/react';
 
 export default function Checkout() {
   const { cart, cartTotal } = useCart();
@@ -141,7 +143,7 @@ export default function Checkout() {
               size="big"
               variant="primary"
             >
-              <Phone size={24} className="animate-pulse" />
+              <Icon icon="logos:whatsapp-icon" width="36" height="36" />
               Finalizar pago por WhatsApp
             </Button>
           </form>

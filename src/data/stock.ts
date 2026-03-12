@@ -41,7 +41,7 @@ export const GIN_PRODUCTS: Product[] = [
     category: "merchandise"
   },
     {
-    id: 4,
+    id: 5,
     name: "Gin sin nombre",
     image: ginBottle,
     price: 4500,

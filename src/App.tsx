@@ -9,9 +9,10 @@ import Contacto from './pages/Contacto'
 import Checkout from './pages/Checkout'
 import Presale from './pages/Presale'
 import { useCart } from './hooks/useCart'
+import CartDropdown from './components/CartDropdown'
 
 function AppContent() {
-  const { cartCount } = useCart();
+  const { cartCount, isCartOpen } = useCart();
   const location = useLocation();
 
   const isPresale = location.pathname === '/presale';
@@ -19,6 +20,8 @@ function AppContent() {
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50 font-sans selection:bg-gold-100 selection:text-gold-900">
       <Navbar cartCount={cartCount} />
+      
+      {isCartOpen && <CartDropdown />}
       
       {!isPresale && <HeaderBanner />}
 
