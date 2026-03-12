@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { Input } from './Input';
 
 export default function Sidebar() {
   const [activeCategory, setActiveCategory] = useState('Botellas');
