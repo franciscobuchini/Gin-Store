@@ -2,14 +2,17 @@ import { useCart } from '../hooks/useCart';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import presaleBottle from '../assets/GinBottle.png';
+import Badge from '../components/Badge';
+import { Button } from '../components/Button';
+import { formatPrice } from '../utils/format';
 
 export default function Presale() {
   const { addToCart } = useCart();
-  const [added, setAdded] = useState(false);
-  
+  const [cartState, setCartState] = useState<'idle' | 'loading' | 'added'>('idle');
+
   // Producto específico para la preventa
   const product = {
-    id: 999, // ID único para preventa
+    id: 999,
     name: "Gin sin Nombre",
     image: presaleBottle,
     price: 18500,
@@ -18,9 +21,13 @@ export default function Presale() {
   };
 
   const handleAddToCart = () => {
-    addToCart(product);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    if (cartState !== 'idle') return;
+    setCartState('loading');
+    setTimeout(() => {
+      addToCart(product);
+      setCartState('added');
+      setTimeout(() => setCartState('idle'), 1400);
+    }, 600);
   };
 
   return (
@@ -30,7 +37,7 @@ export default function Presale() {
         {/* Product Image Section */}
         <div className="relative bg-neutral-50 flex items-center justify-center p-8 md:p-16 overflow-hidden border-b md:border-b-0 md:border-r border-neutral-100">
           <div className="absolute top-8 left-8">
-            <span className="bg-gold-500 text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-lg shadow-gold-500/30">
+            <span className="bg-gold-500 text-white text-[10px] font-black  tracking-[0.2em] px-4 py-2 rounded-full shadow-lg shadow-gold-500/30">
               Unidades disponibles: 100
             </span>
           </div>
@@ -50,62 +57,69 @@ export default function Presale() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-gold-400"></span>
-              <span className="text-gold-600 font-bold uppercase tracking-[0.3em] text-[10px]">Edición Limitada</span>
+              <span className="text-gold-600 font-bold  tracking-[0.3em] text-[10px]">Preventa exclusiva</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-black text-neutral-900 leading-none">
               {product.name}
             </h1>
             <div className="flex items-center gap-4">
-              <span className="text-[12px] font-bold text-neutral-400 border border-neutral-200 px-3 py-1 rounded-full">
+              <Badge>
                 {product.ml}ml
-              </span>
-              <div className="flex text-gold-500">
+              </Badge>
+              <div className="flex items-center gap-0.5 text-gold-500">
                 {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
+                  <Icon key={i} icon="ph:star-fill" className="w-4 h-4" />
                 ))}
               </div>
             </div>
           </div>
 
-          <p className="text-neutral-500 text-lg leading-relaxed">
-            No buscamos que nos reconozcan por fuera, sino por dentro. Un nombre que aún no podes pronunciar, pero un sabor que no vas a olvidar. <br /> Sin etiquetas, sin nombre, solor sabor <br /> Sé de los primeros en descubrirlo. Fecha de lanzamiento: 04/04/2026.
+          <p className="text-neutral-500 text-lg leading-relaxed italic">
+            No buscamos que nos reconozcan por fuera, sino por dentro. Un nombre que aún no podes pronunciar, pero un sabor que no vas a olvidar. <br /> Sin etiquetas, sin nombre, solor sabor <br /> Sé de los primeros en descubrirlo. 
+              <p className="font-medium">Fecha de lanzamiento: 04/04.</p>
           </p>
 
           <div className="pt-4 space-y-6">
             <div className="flex items-baseline gap-2">
               <span className="text-5xl font-black text-neutral-900">
-                ${product.price.toLocaleString()}
+                ${formatPrice(product.price)}
               </span>
               <span className="text-neutral-400 line-through text-xl">
-                ${(product.price * 1.25).toLocaleString()}
-              </span>
+                ${formatPrice(product.price * 1.25)}
+                              </span>
             </div>
 
-            <button 
+            <Button 
               onClick={handleAddToCart}
-              disabled={added}
-              className={`w-full group relative overflow-hidden font-black uppercase tracking-widest py-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-4 ${
-                added 
-                ? 'bg-green-500 text-white cursor-default' 
-                : 'bg-neutral-900 text-white hover:bg-gold-600 hover:-translate-y-1 shadow-2xl hover:shadow-gold-600/20'
-              }`}
+              disabled={cartState !== 'idle'}
+              size="big"
+              variant={
+                cartState === 'added' ? 'success' :
+                cartState === 'loading' ? 'loading' :
+                'neutral'
+              }
+              className="group relative overflow-hidden w-full"
             >
-              {added ? (
+              {cartState === 'added' ? (
                 <>
                   <Icon icon="ph:check-bold" width="24" height="24" />
                   Agregado al carrito
                 </>
+              ) : cartState === 'loading' ? (
+                <span className="flex gap-1.5 items-center">
+                  <span className="w-2 h-2 rounded-full bg-neutral-400 animate-bounce [animation-delay:0ms]" />
+                  <span className="w-2 h-2 rounded-full bg-neutral-400 animate-bounce [animation-delay:150ms]" />
+                  <span className="w-2 h-2 rounded-full bg-neutral-400 animate-bounce [animation-delay:300ms]" />
+                </span>
               ) : (
                 <>
                   <Icon icon="ph:shopping-cart-simple-bold" width="24" height="24" />
                   Reservar Ahora
                 </>
               )}
-            </button>
-            <p className="text-center text-[10px] text-neutral-400 font-medium uppercase tracking-wider">
-              * Envío gratís en preventa | Stock limitado a 100 unidades
+            </Button>
+            <p className="text-center text-xs text-neutral-400 font-medium tracking-wider">
+              Prohibida su venta a menores de 18 años
             </p>
           </div>
         </div>

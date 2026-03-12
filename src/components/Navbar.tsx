@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { ShoppingCart, User, Menu, X, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, Menu, X, ArrowLeft } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../hooks/useCart';
 import CartDropdown from './CartDropdown';
+import { Button } from './Button';
 
 interface NavbarProps {
   cartCount: number;
@@ -42,16 +43,18 @@ export default function Navbar({ cartCount }: NavbarProps) {
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-neutral-200">
       <div className="w-full px-6">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex gap-2 items-center justify-between h-16 md:h-20">
           {/* Logo / Back Button */}
           <div className="flex-shrink-0 flex items-center gap-4">
             {isCheckout && (
-              <button 
+              <Button 
                 onClick={() => navigate('/')}
-                className="p-2 -ml-2 hover:bg-neutral-100 rounded-full transition-colors md:hidden"
+                size="icon"
+                variant="ghost"
+                className="hover:bg-neutral-100 rounded-full md:hidden"
               >
                 <ArrowLeft size={20} className="text-neutral-600" />
-              </button>
+              </Button>
             )}
             <Link to="/" className="flex items-center">
               <span className="text-xl md:text-2xl font-black italic tracking-tighter">
@@ -73,23 +76,22 @@ export default function Navbar({ cartCount }: NavbarProps) {
           <div className="flex items-center space-x-1 sm:space-x-3">
             {!isCheckout && (
               <>
-                <button className="text-neutral-500 hover:text-neutral-900 transition-colors p-2 hidden sm:block">
-                  <User size={20} />
-                </button>
                 <div className="relative" ref={cartRef}>
-                  <button 
+                  <Button 
                     onClick={() => setIsCartOpen(!isCartOpen)}
-                    className="relative text-neutral-500 hover:text-neutral-900 transition-colors p-2 group"
+                    variant="ghost"
+                    size="icon"
+                    className="relative text-neutral-500 hover:text-neutral-900 group"
                   >
                     <div className="bg-neutral-50 p-2 rounded-xl group-hover:bg-gold-50 transition-colors">
                       <ShoppingCart size={20} className="group-hover:text-gold-600 transition-colors" />
                     </div>
                     {cartCount > 0 && (
-                      <span className="absolute -top-1 -right-1 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[10px] font-black text-white bg-gold-500 rounded-full ring-2 ring-white">
+                      <span className="absolute top-0 right-0 inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[10px] font-black text-white bg-gold-500 rounded-full ring-2 ring-white">
                         {cartCount}
                       </span>
                     )}
-                  </button>
+                  </Button>
 
                   {isCartOpen && (
                     <div className="z-[100] absolute right-0">
@@ -99,12 +101,14 @@ export default function Navbar({ cartCount }: NavbarProps) {
                 </div>
                 
                 {/* Mobile Menu Button */}
-                <button 
+                <Button 
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="md:hidden text-neutral-500 hover:text-neutral-900 transition-colors p-2"
+                  size="icon"
+                  variant="ghost"
+                  className="md:hidden text-neutral-500 hover:text-neutral-900"
                 >
                   {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
+                </Button>
               </>
             )}
             {isCheckout && (
@@ -123,10 +127,15 @@ export default function Navbar({ cartCount }: NavbarProps) {
           <Link to="/promos" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/promos' ? 'text-gold-600' : 'text-neutral-500'}`}>Promos</Link>
           <Link to="/presale" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/presale' ? 'text-gold-600' : 'text-neutral-500'}`}>Preventa</Link>
           <Link to="/contacto" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/contacto' ? 'text-gold-600' : 'text-neutral-500'}`}>Contacto</Link>
-          <button onClick={() => { setIsMenuOpen(false); setIsCartOpen(true); }} className="w-full bg-gold-500 text-white font-black py-4 rounded-2xl flex items-center justify-center gap-3 mt-4">
+          <Button 
+            onClick={() => { setIsMenuOpen(false); setIsCartOpen(true); }}
+            variant="primary"
+            fullWidth
+            className="mt-4"
+          >
             <ShoppingCart size={20} />
             Ver Carrito ({cartCount})
-          </button>
+          </Button>
         </div>
       </div>
     </nav>

@@ -1,11 +1,25 @@
-import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
+import { useStore } from '../hooks/useStore';
+import { GIN_PRODUCTS } from '../data/stock';
+import { useEffect, useMemo } from 'react';
+import { Button } from './Button';
 
 export default function Sidebar() {
-  const [activeCategory, setActiveCategory] = useState('Botellas');
+  const { activeCategory, setActiveCategory, initializeCategories } = useStore();
   const location = useLocation();
   
+  // Extract unique categories from db and format to capitalized names securely
+  const uniqueCategories = useMemo(() => {
+    return Array.from(new Set(GIN_PRODUCTS.map(p => 
+      p.category ? p.category.charAt(0).toUpperCase() + p.category.slice(1).toLowerCase() : 'Otros'
+    ))).sort();
+  }, []);
+
+  useEffect(() => {
+    initializeCategories(uniqueCategories);
+  }, [uniqueCategories, initializeCategories]);
+
   if (location.pathname === '/presale') return null;
 
   const isHome = location.pathname === '/';
@@ -21,14 +35,24 @@ export default function Sidebar() {
           <section className="space-y-4">
             <h3 className="font-semibold text-xl">Categorías</h3>
             <div className="space-y-2">
-              {['Botellas', 'Merchandise', 'Kits'].map((cat) => (
-                <button 
+              <Button 
+                onClick={() => setActiveCategory('Todos')}
+                size="small"
+                variant={'Todos' === activeCategory ? 'neutral' : 'ghost'}
+                className="w-full justify-start"
+              >
+                Todos
+              </Button>
+              {uniqueCategories.map((cat) => (
+                <Button 
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`block w-full text-left px-4 py-2 rounded-xl transition-all ${cat === activeCategory ? 'bg-black text-white font-semibold' : 'text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900'}`}
+                  size="small"
+                  variant={cat === activeCategory ? 'neutral' : 'ghost'}
+                  className="w-full justify-start"
                 >
                   {cat}
-                </button>
+                </Button>
               ))}
             </div>
           </section>

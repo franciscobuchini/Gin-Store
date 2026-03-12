@@ -4,6 +4,7 @@ export interface Product {
   image: string;
   price: number;
   ml: number;
+  category?: string;
   flavor: string;
 }
 

@@ -2,6 +2,9 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
 import type { Product } from '../types/product';
+import Badge from './Badge';
+import { Button } from './Button';
+import { formatPrice } from '../utils/format';
 
 interface GinProductProps {
   product: Product;
@@ -10,17 +13,21 @@ interface GinProductProps {
 
 export default function GinCard({ product, onAddToCart }: GinProductProps) {
   const { image, name, price, ml, flavor } = product;
-  const [added, setAdded] = useState(false);
+  const [cartState, setCartState] = useState<'idle' | 'loading' | 'added'>('idle');
 
   const handleAddToCart = () => {
-    onAddToCart();
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    if (cartState !== 'idle') return;
+    setCartState('loading');
+    setTimeout(() => {
+      onAddToCart();
+      setCartState('added');
+      setTimeout(() => setCartState('idle'), 1400);
+    }, 600);
   };
 
   
   return (
-    <div className="group relative bg-white border border-neutral-200 rounded-xl overflow-hidden hover:border-gold-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/5">
+    <div className="group relative bg-white rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-gold-500/10">
       {/* Product Image */}
       <div className="aspect-square overflow-hidden flex items-center justify-center p-4">
         <img 
@@ -36,9 +43,9 @@ export default function GinCard({ product, onAddToCart }: GinProductProps) {
           <h3 className="text-base font-bold text-neutral-900 group-hover:text-gold-600 transition-colors line-clamp-1">
             {name}
           </h3>
-          <span className="text-[10px] text-neutral-400 font-medium whitespace-nowrap bg-neutral-100 px-1.5 py-0.5 rounded uppercase">
+          <Badge>
             {ml}ml
-          </span>
+          </Badge>
         </div>
         
         <p className="text-neutral-500 text-xs leading-relaxed line-clamp-2 min-h-[2rem]">
@@ -47,23 +54,31 @@ export default function GinCard({ product, onAddToCart }: GinProductProps) {
 
         <div className="flex items-center justify-between pt-2">
           <span className="text-lg font-bold text-neutral-900">
-            ${price.toLocaleString()}
+            ${formatPrice(price)}
           </span>
-          <button 
+          <Button 
             onClick={handleAddToCart}
-            disabled={added}
-            className={`flex items-center justify-center w-8 h-8 rounded-lg font-semibold transition-all active:scale-95 shadow-sm ${
-              added 
-                ? 'bg-green-500 text-white cursor-default' 
-                : 'bg-gold-500 hover:bg-gold-600 text-white shadow-gold-500/20'
-            }`}
+            disabled={cartState !== 'idle'}
+            size="icon"
+            variant={
+              cartState === 'added' ? 'success' :
+              cartState === 'loading' ? 'loading' :
+              'primary'
+            }
+            className="w-8 h-8 rounded-lg !p-0"
           >
-            {added ? (
+            {cartState === 'added' ? (
               <Icon icon="ph:check-bold" width="16" height="16" />
+            ) : cartState === 'loading' ? (
+              <span className="flex gap-[3px] items-center">
+                <span className="w-1 h-1 rounded-full bg-neutral-400 animate-bounce [animation-delay:0ms]" />
+                <span className="w-1 h-1 rounded-full bg-neutral-400 animate-bounce [animation-delay:150ms]" />
+                <span className="w-1 h-1 rounded-full bg-neutral-400 animate-bounce [animation-delay:300ms]" />
+              </span>
             ) : (
               <Plus size={16} />
             )}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

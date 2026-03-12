@@ -8,7 +8,7 @@ export default function Footer() {
           
           {/* Social Media Section - Left Aligned */}
           <div className="flex flex-col items-center md:items-start space-y-4">
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gold-500/80">Seguinos</span>
+            <span className="text-[10px] font-black  tracking-[0.4em] text-gold-500/80">Seguinos</span>
             <div className="flex items-center gap-4">
               <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-pink-600 shadow-xl shadow-black/20 hover:shadow-pink-600/20">
                 <Icon icon="ph:instagram-logo-fill" width="22" height="22" />
@@ -31,9 +31,9 @@ export default function Footer() {
               <span className="text-2xl font-black text-white tracking-tighter italic">
                 Gin sin nombre
               </span>
-              <p className="text-gold-500/80 text-[10px] uppercase tracking-[0.4em] font-medium">Destilería Premium</p>
+              <p className="text-gold-500/80 text-[10px]  tracking-[0.4em] font-medium">Destilería Premium</p>
             </div>
-            <p className="text-[10px] text-neutral-500 font-medium tracking-tight uppercase">
+            <p className="text-[10px] text-neutral-500 font-medium tracking-tight ">
               © 2024 Gin sin nombre. Todos los derechos reservados.
             </p>
           </div>

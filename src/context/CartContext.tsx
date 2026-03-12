@@ -1,19 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Product, CartItem } from '../types/product';
+import { CartContext } from '../hooks/useCart';
 
-interface CartContextType {
-  cart: CartItem[];
-  isCartOpen: boolean;
-  setIsCartOpen: (isOpen: boolean) => void;
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
-  updateQuantity: (productId: number, delta: number) => void;
-  cartTotal: number;
-  cartCount: number;
-  clearCart: () => void;
-}
-
-const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -74,10 +62,3 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useCart() {
-  const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-}
