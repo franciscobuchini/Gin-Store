@@ -12,8 +12,8 @@ export default function Contacto() {
   };
 
   return (
-    <main className="flex-grow p-6 md:p-12 xl:p-16 flex flex-col items-center justify-center">
-      <div className="w-full max-w-6xl bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-gold-500/5 border border-neutral-100">
+    <main className="flex-grow p-2 md:p-12 xl:p-16 flex flex-col items-center justify-center">
+      <div className="w-full max-w-6xl bg-white p-5 md:p-12 rounded-[2.5rem] shadow-2xl shadow-gold-500/5 border border-neutral-100">
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           
           {/* Columna Izquierda: Inputs Cortos (7 columnas en lg) */}
@@ -69,7 +69,7 @@ export default function Contacto() {
               <Check className="w-10 h-10" strokeWidth={3} />
             </div>
             <h2 className="text-3xl font-black text-neutral-900 mb-4 tracking-tight">¡Gracias por comunicarte!</h2>
-            <p className="text-neutral-600 mb-8 leading-relaxed text-lg">
+            <p className="text-neutral-600 mb-8  text-lg">
               Tu mensaje fue enviado a nuestro equipo con éxito. Pronto nos pondremos en contacto contigo.
             </p>
             <Button 

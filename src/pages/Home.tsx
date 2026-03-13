@@ -15,7 +15,7 @@ function Home() {
   });
 
   return (
-    <main className="flex-grow p-16">
+    <main className="flex-grow p-2 sm:p-4 md:p-8">
       {/* Product Grid Responsive */}
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6">
@@ -28,7 +28,7 @@ function Home() {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center p-12 text-center text-neutral-400">
+        <div className="flex flex-col items-center justify-center p-6 text-center text-neutral-400">
           <Package className="w-12 h-12 mb-4 text-neutral-300" strokeWidth={1.5} />
           <p className="text-lg font-medium">No hay productos en esta categoría</p>
           <p className="text-sm">Vuelve pronto para descubrir nuevas opciones.</p>

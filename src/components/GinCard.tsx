@@ -48,7 +48,7 @@ export default function GinCard({ product, onAddToCart }: GinProductProps) {
           </Badge>
         </div>
         
-        <p className="text-neutral-500 text-xs leading-relaxed line-clamp-2 min-h-[2rem]">
+        <p className="text-neutral-500 text-xs  line-clamp-2 min-h-[2rem]">
           {flavor}
         </p>
 

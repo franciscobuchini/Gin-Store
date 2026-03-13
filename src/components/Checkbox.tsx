@@ -24,7 +24,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             />
           </div>
         </div>
-        <span className="text-xs md:text-sm text-neutral-600 leading-tight group-hover:text-neutral-900 transition-colors select-none pt-[2px]">
+        <span className="text-xs md:text-sm text-neutral-600  group-hover:text-neutral-900 transition-colors select-none pt-[2px]">
           {label}
         </span>
       </label>

@@ -20,12 +20,12 @@ export default function HeaderBanner() {
   }
 
   return (
-    <div className="w-full bg-white px-6 pt-20 md:h-[300px] flex flex-col justify-center items-center text-center">
+    <div className="w-full bg-white p-6 pt-20 md:h-[300px] flex flex-col justify-center items-center text-center">
       <div className="max-w-4xl">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight bg-gradient-to-r from-gold-300 via-gold-600 to-gold-800 bg-clip-text text-transparent py-2 leading-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight bg-gradient-to-r from-gold-300 via-gold-600 to-gold-800 bg-clip-text text-transparent py-2 ">
           {title}
         </h1>
-        <p className="mt-4 text-neutral-600 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+        <p className="mt-4 text-neutral-600 text-sm md:text-base max-w-xl mx-auto ">
           {subtitle}
         </p>
       </div>

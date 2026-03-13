@@ -31,15 +31,23 @@ export default function Presale() {
   };
 
   return (
-    <main className="flex-grow p-6 md:p-16 md:pt-2 flex items-center justify-center">
-      <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 bg-white rounded-[2.5rem] overflow-hidden border border-neutral-100 shadow-2xl shadow-gold-500/10">
+    <main className="flex-grow p-2 md:p-12 xl:p-16 flex flex-col items-center justify-center">
+      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 bg-white p-5 md:p-12 rounded-[2.5rem] overflow-hidden border border-neutral-100 shadow-2xl shadow-gold-500/5">
         
         {/* Product Image Section */}
         <div className="relative bg-neutral-50 flex items-center justify-center p-8 md:p-16 overflow-hidden border-b md:border-b-0 md:border-r border-neutral-100">
-          <div className="absolute top-8 left-8">
-            <span className="bg-gold-500 text-white text-[10px] font-black  tracking-[0.2em] px-4 py-2 rounded-full shadow-lg shadow-gold-500/30">
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 md:hidden z-10 w-full text-center">
+            <div className="flex items-center justify-center gap-3">
+              <span className="h-px w-6 bg-gold-400"></span>
+              <span className="text-gold-600 font-bold tracking-[0.3em] text-[10px] uppercase">Preventa exclusiva</span>
+              <span className="h-px w-6 bg-gold-400"></span>
+            </div>
+          </div>
+
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 md:translate-x-0 md:top-8 md:left-8 md:bottom-auto z-10">
+            <Badge variant="gold" className="px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-bold tracking-[0.15em] whitespace-nowrap">
               Unidades disponibles: 100
-            </span>
+            </Badge>
           </div>
           
           <img 
@@ -55,11 +63,11 @@ export default function Presale() {
         {/* Product Details Section */}
         <div className="p-8 md:p-16 flex flex-col justify-center space-y-8">
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-3">
               <span className="h-px w-8 bg-gold-400"></span>
-              <span className="text-gold-600 font-bold  tracking-[0.3em] text-[10px]">Preventa exclusiva</span>
+              <span className="text-gold-600 font-bold tracking-[0.3em] text-[10px] uppercase">Preventa exclusiva</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-black text-neutral-900 leading-none">
+            <h1 className="text-4xl md:text-6xl font-black text-neutral-900 ">
               {product.name}
             </h1>
             <div className="flex items-center gap-4">
@@ -74,19 +82,23 @@ export default function Presale() {
             </div>
           </div>
 
-          <p className="text-neutral-500 text-lg leading-relaxed italic">
-            No buscamos que nos reconozcan por fuera, sino por dentro. Un nombre que aún no podes pronunciar, pero un sabor que no vas a olvidar. <br /> Sin etiquetas, sin nombre, solor sabor <br /> Sé de los primeros en descubrirlo. 
-              <p className="font-medium">Fecha de lanzamiento: 04/04.</p>
-          </p>
+          <div className="text-neutral-500 text-lg  italic space-y-2">
+            <p>
+              No buscamos que nos reconozcan por fuera, sino por dentro. Un nombre que aún no podes pronunciar, pero un sabor que no vas a olvidar. <br /> Sin etiquetas, sin nombre, solo sabor <br /> Sé de los primeros en descubrirlo. 
+            </p>
+            <p className="not-italic font-semibold text-neutral-900 uppercase text-sm tracking-widest mt-4">
+              Fecha de lanzamiento: 04/04
+            </p>
+          </div>
 
           <div className="pt-4 space-y-6">
-            <div className="flex items-baseline gap-2">
-              <span className="text-5xl font-black text-neutral-900">
+            <div className="flex flex-wrap items-baseline gap-3 md:gap-4">
+              <span className="text-4xl md:text-6xl font-black text-neutral-900 ">
                 ${formatPrice(product.price)}
               </span>
-              <span className="text-neutral-400 line-through text-xl">
+              <span className="text-neutral-400 text-lg md:text-2xl font-medium">
                 ${formatPrice(product.price * 1.25)}
-                              </span>
+              </span>
             </div>
 
             <Button 

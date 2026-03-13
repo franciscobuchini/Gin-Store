@@ -25,7 +25,7 @@ function AppContent() {
       
       {!isPresale && <HeaderBanner />}
 
-      <div className={`flex flex-grow w-full ${isPresale ? 'pt-24 md:pt-32' : 'p-6 overflow-hidden'}`}>
+      <div className={`flex flex-grow w-full ${isPresale ? 'pt-24 md:pt-32' : 'px-2 md:px-6 py-6 overflow-hidden'}`}>
         <Sidebar />
         
         <div className="flex-grow flex flex-col min-w-0">
