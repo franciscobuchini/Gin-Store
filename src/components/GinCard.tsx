@@ -27,26 +27,26 @@ export default function GinCard({ product, onAddToCart }: GinProductProps) {
 
   
   return (
-    <div className="group relative bg-white rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-gold-500/10">
+    <div className="group relative bg-white rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-gold-500/10">
       {/* Product Image */}
-      <div className="aspect-square overflow-hidden flex items-center justify-center p-4">
+      <div className="relative aspect-square overflow-hidden flex items-center justify-center p-2 sm:p-4">
         <img 
           src={image} 
           alt={name} 
           className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500"
         />
-      </div>
-
-      {/* Product Details */}
-      <div className="p-4 space-y-2">
-        <div className="flex justify-between items-start gap-2">
-          <h3 className="text-base font-bold text-neutral-900 group-hover:text-gold-600 transition-colors line-clamp-1">
-            {name}
-          </h3>
-          <Badge>
+        <div className="absolute bottom-2 right-2">
+          <Badge className="bg-white/80 backdrop-blur-sm border-white/20 shadow-sm">
             {ml}ml
           </Badge>
         </div>
+      </div>
+
+      {/* Product Details */}
+      <div className="p-3 sm:p-4 space-y-2">
+        <h3 className="text-base font-bold text-neutral-900 group-hover:text-gold-600 transition-colors line-clamp-2">
+          {name}
+        </h3>
         
         <p className="text-neutral-500 text-xs  line-clamp-2 min-h-[2rem]">
           {flavor}

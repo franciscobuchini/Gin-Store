@@ -1,10 +1,72 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
+import { Combobox } from '../components/Combobox';
+
+interface Province { id: string; nombre: string }
+interface City { id: string; nombre: string }
 
 export default function Contacto() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const [provinces, setProvinces] = useState<Province[]>([]);
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [cities, setCities] = useState<City[]>([]);
+  const [selectedCity, setSelectedCity] = useState('');
+  const [isLoadingProvinces, setIsLoadingProvinces] = useState(false);
+  const [isLoadingCities, setIsLoadingCities] = useState(false);
+
+  // Fetch provinces on mount
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      setIsLoadingProvinces(true);
+      try {
+        const res = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre');
+        const data = await res.json();
+        setProvinces(data.provincias.sort((a: Province, b: Province) => a.nombre.localeCompare(b.nombre)));
+      } catch (error) {
+        console.error("Error fetching provinces:", error);
+      } finally {
+        setIsLoadingProvinces(false);
+      }
+    };
+    fetchProvinces();
+  }, []);
+
+  // Fetch cities when province changes
+  useEffect(() => {
+    if (!selectedProvince) {
+      setCities([]);
+      return;
+    }
+
+    const fetchCities = async () => {
+      setIsLoadingCities(true);
+      setSelectedCity('');
+      try {
+        const res = await fetch(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${selectedProvince}&max=1000&campos=id,nombre`);
+        const data = await res.json();
+        
+        // Deduplicamos por nombre
+        const uniqueNames = new Set<string>();
+        const filtered = data.localidades
+          .filter((item: City) => {
+            if (uniqueNames.has(item.nombre)) return false;
+            uniqueNames.add(item.nombre);
+            return true;
+          })
+          .sort((a: City, b: City) => a.nombre.localeCompare(b.nombre));
+        
+        setCities(filtered);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      } finally {
+        setIsLoadingCities(false);
+      }
+    };
+    fetchCities();
+  }, [selectedProvince]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,10 +81,31 @@ export default function Contacto() {
           {/* Columna Izquierda: Inputs Cortos (7 columnas en lg) */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             <Input label="Nombre" placeholder="Tu nombre completo" required />
-            <Input label="E-mail" type="email" placeholder="ejemplo@correo.com" required />
+            <Input label="Email" type="email" placeholder="ejemplo@correo.com" required />
             <Input label="Teléfono" type="tel" placeholder="+54 9 11 0000-0000" required />
-            <Input label="Provincia" placeholder="Ej: Santa Fe" required />
-            <Input label="Ciudad" placeholder="Ej: Santa Fe" required />
+            <Combobox 
+              label="Provincia" 
+              value={selectedProvince}
+              onChange={(val) => {
+                setSelectedProvince(val);
+                setSelectedCity('');
+              }}
+              options={provinces.map(p => ({ value: p.id, label: p.nombre }))}
+              disabled={isLoadingProvinces}
+              isLoading={isLoadingProvinces}
+              placeholder="Buscar provincia..."
+              required
+            />
+            <Combobox 
+              label="Ciudad" 
+              value={selectedCity}
+              onChange={(val) => setSelectedCity(val)}
+              options={cities.map(c => ({ value: c.nombre, label: c.nombre }))}
+              disabled={!selectedProvince || isLoadingCities}
+              isLoading={isLoadingCities}
+              placeholder="Buscar ciudad..."
+              required
+            />
 
             {/* Tipo de consulta */}
             <div className="flex flex-col">

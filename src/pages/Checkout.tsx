@@ -9,7 +9,7 @@ import { ShoppingCart, CheckCircle2, AlertCircle } from 'lucide-react';
 import Badge from '../components/Badge';
 import { useState, useEffect } from 'react';
 import { COUPONS, type Coupon } from '../data/coupons';
-import { Select } from '../components/Select';
+import { Combobox } from '../components/Combobox';
 
 import { Icon } from '@iconify/react';
 
@@ -59,7 +59,17 @@ export default function Checkout() {
       try {
         const res = await fetch(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${selectedProvince}&max=1000&campos=id,nombre`);
         const data = await res.json();
-        setCities(data.localidades.sort((a: City, b: City) => a.nombre.localeCompare(b.nombre)));
+        // Deduplicamos por nombre para que no aparezcan 10 veces la misma ciudad
+        const uniqueNames = new Set<string>();
+        const filtered = data.localidades
+          .filter((item: City) => {
+            if (uniqueNames.has(item.nombre)) return false;
+            uniqueNames.add(item.nombre);
+            return true;
+          })
+          .sort((a: City, b: City) => a.nombre.localeCompare(b.nombre));
+        
+        setCities(filtered);
       } catch (error) {
         console.error("Error fetching cities:", error);
       } finally {
@@ -219,10 +229,10 @@ export default function Checkout() {
                 Datos de contacto
               </h2>
               <div className="space-y-4 md:space-y-5">
-                <Input label="E-mail" type="email" placeholder="ejemplo@correo.com" required />
+                <Input label="Email" type="email" placeholder="ejemplo@correo.com" required />
                 <Checkbox 
                   id="newsletter" 
-                  label="Quiero recibir ofertas, lanzamientos y novedades exclusivas por e-mail" 
+                  label="Quiero recibir ofertas, lanzamientos y novedades exclusivas por Email" 
                 />
               </div>
             </section>
@@ -252,25 +262,29 @@ export default function Checkout() {
                 </div>
 
                 <div className="sm:col-span-3">
-                  <Select 
+                  <Combobox 
                     label="Provincia" 
                     value={selectedProvince}
-                    onChange={(e) => {
-                      setSelectedProvince(e.target.value);
-                      setSelectedCity(''); // Clear city while loading new ones
+                    onChange={(val) => {
+                      setSelectedProvince(val);
+                      setSelectedCity('');
                     }}
                     options={provinces.map(p => ({ value: p.id, label: p.nombre }))}
                     disabled={isLoadingProvinces}
+                    isLoading={isLoadingProvinces}
+                    placeholder="Buscar provincia..."
                     required
                   />
                 </div>
                 <div className="sm:col-span-3">
-                  <Select 
+                  <Combobox 
                     label="Ciudad / Localidad" 
                     value={selectedCity}
-                    onChange={(e) => setSelectedCity(e.target.value)}
+                    onChange={(val) => setSelectedCity(val)}
                     options={cities.map(c => ({ value: c.nombre, label: c.nombre }))}
                     disabled={!selectedProvince || isLoadingCities}
+                    isLoading={isLoadingCities}
+                    placeholder="Buscar ciudad..."
                     required
                   />
                 </div>
