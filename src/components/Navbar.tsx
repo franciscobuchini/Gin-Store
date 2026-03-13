@@ -58,7 +58,7 @@ export default function Navbar({ cartCount }: NavbarProps) {
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md">
+      <nav className="fixed top-0 w-full z-50 bg-white">
         <div className="w-full px-6">
           <div className="flex gap-2 items-center justify-between h-16 md:h-20">
             {/* Logo / Back Button */}
@@ -138,7 +138,7 @@ export default function Navbar({ cartCount }: NavbarProps) {
         </div>
 
         {/* Mobile Menu Panel */}
-        <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-neutral-100 ${isMenuOpen ? 'max-h-[80vh] shadow-xl' : 'max-h-0'}`}>
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white  ${isMenuOpen ? 'max-h-[80vh] shadow-xl' : 'max-h-0'}`}>
           <div className="px-6 py-8 space-y-4">
             <Link to="/" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/' ? 'text-gold-600' : 'text-neutral-900'}`}>Tienda</Link>
             <Link to="/promos" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/promos' ? 'text-gold-600' : 'text-neutral-500'}`}>Promos</Link>

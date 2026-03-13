@@ -11,6 +11,7 @@ import Presale from './pages/Presale'
 import NotFound from './pages/NotFound'
 import { useCart } from './hooks/useCart'
 import CartDropdown from './components/CartDropdown'
+import CategoryMobileNav from './components/CategoryMobileNav'
 
 function AppContent() {
   const { cartCount, isCartOpen } = useCart();
@@ -27,6 +28,8 @@ function AppContent() {
       {isCartOpen && <CartDropdown />}
       
       {!isPresale && !isNotFound && <HeaderBanner />}
+      
+      {location.pathname === '/' && <CategoryMobileNav />}
 
       <div className={`flex flex-grow w-full ${isPresale ? 'pt-24 md:pt-32' : 'px-2 md:px-6 py-6 overflow-hidden'}`}>
         <Sidebar />

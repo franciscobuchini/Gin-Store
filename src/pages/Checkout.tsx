@@ -274,9 +274,6 @@ export default function Checkout() {
                     required
                   />
                 </div>
-                <div className="sm:col-span-6">
-                  <Input label="Barrio (opcional)" placeholder="Nombre del barrio" />
-                </div>
               </div>
             </section>
 
