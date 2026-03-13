@@ -15,7 +15,7 @@ function Home() {
   });
 
   return (
-    <main className="flex-grow p-2 sm:p-4 md:p-8">
+    <main className="flex-grow px-4 py-2 sm:px-4 md:p-8">
       {/* Product Grid Responsive */}
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 xs:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6">
