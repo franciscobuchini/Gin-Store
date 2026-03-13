@@ -8,6 +8,7 @@ import Promos from './pages/Promos'
 import Contacto from './pages/Contacto'
 import Checkout from './pages/Checkout'
 import Presale from './pages/Presale'
+import NotFound from './pages/NotFound'
 import { useCart } from './hooks/useCart'
 import CartDropdown from './components/CartDropdown'
 
@@ -16,6 +17,8 @@ function AppContent() {
   const location = useLocation();
 
   const isPresale = location.pathname === '/presale';
+  const knownRoutes = ['/', '/promos', '/contacto', '/checkout', '/presale'];
+  const isNotFound = !knownRoutes.includes(location.pathname);
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50 font-sans selection:bg-gold-100 selection:text-gold-900">
@@ -23,7 +26,7 @@ function AppContent() {
       
       {isCartOpen && <CartDropdown />}
       
-      {!isPresale && <HeaderBanner />}
+      {!isPresale && !isNotFound && <HeaderBanner />}
 
       <div className={`flex flex-grow w-full ${isPresale ? 'pt-24 md:pt-32' : 'px-2 md:px-6 py-6 overflow-hidden'}`}>
         <Sidebar />
@@ -35,6 +38,7 @@ function AppContent() {
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/presale" element={<Presale />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import FreeShippingProgress from './FreeShippingProgress';
 import { formatPrice } from '../utils/format';
 import { Button } from './Button';
+import Badge from './Badge';
 
 export default function CartDropdown() {
   const { cart, removeFromCart, updateQuantity, cartTotal, setIsCartOpen } = useCart();
@@ -56,7 +57,12 @@ export default function CartDropdown() {
                 </div>
                 <div className="flex-grow min-w-0 flex flex-col justify-between py-0.5">
                   <div className="flex justify-between items-start">
-                    <h4 className="font-bold text-neutral-900 truncate pr-2">{item.name}</h4>
+                    <div className="flex items-center gap-2 min-w-0 pr-2">
+                       <h4 className="font-bold text-neutral-900 truncate">{item.name}</h4>
+                       <Badge variant="neutral" className="text-[9px] px-1.5 py-0.5 tracking-tight shrink-0 border-neutral-200 text-neutral-500">
+                          {item.ml}ml
+                       </Badge>
+                    </div>
                     <Button 
                       onClick={() => removeFromCart(item.id)}
                       size="icon"

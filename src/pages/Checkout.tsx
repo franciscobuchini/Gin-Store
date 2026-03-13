@@ -6,6 +6,7 @@ import FreeShippingProgress from '../components/FreeShippingProgress';
 import { formatPrice } from '../utils/format';
 import { Button } from '../components/Button';
 import { ShoppingCart, CheckCircle2, AlertCircle } from 'lucide-react';
+import Badge from '../components/Badge';
 import { useState } from 'react';
 import { COUPONS, type Coupon } from '../data/coupons';
 
@@ -94,8 +95,13 @@ export default function Checkout() {
                         <img src={item.image} alt={item.name} className="w-14 h-14 object-contain bg-neutral-50 rounded-xl p-2 border border-neutral-100" />
                         <span className="absolute -top-2 -right-2 bg-neutral-800 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">{item.quantity}</span>
                       </div>
-                      <div className="truncate">
-                        <p className="font-bold text-neutral-900  truncate">{item.name}</p>
+                      <div className="truncate min-w-0">
+                        <div className="flex items-center gap-2 mb-1 min-w-0">
+                          <p className="font-bold text-neutral-900 truncate">{item.name}</p>
+                          <Badge variant="neutral" className="text-[10px] px-1.5 py-0.5 tracking-tight shrink-0 border-neutral-200 text-neutral-500">
+                             {item.ml}ml
+                          </Badge>
+                        </div>
                         <p className="text-neutral-500 text-xs">${formatPrice(item.price * item.quantity)}</p>
                       </div>
                     </div>
@@ -116,15 +122,21 @@ export default function Checkout() {
                 
                 <div className="pt-6 mt-6 border-t border-neutral-100">
                   <div className="flex flex-col gap-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-neutral-500 font-medium">Subtotal</span>
-                      <span className="font-bold text-neutral-900">${formatPrice(cartTotal)}</span>
+                    <div className="flex justify-between items-center text-neutral-500 font-medium">
+                      <span>Subtotal</span>
+                      <span>${formatPrice(cartTotal)}</span>
                     </div>
+                    {appliedCoupon && (
+                      <div className="flex justify-between items-center text-neutral-500 font-medium">
+                        <span>Descuento {appliedCoupon.type === 'percentage' ? `(${appliedCoupon.discount}%)` : `(${appliedCoupon.code})`}</span>
+                        <span>-${formatPrice(discountAmount)}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between items-center text-lg font-black pt-2 border-t border-neutral-50">
                       <span>Total</span>
                       <div className="text-right">
                         {appliedCoupon && (
-                          <p className="text-xs text-neutral-400 font-medium  mb-1">
+                          <p className="text-xs text-neutral-400 font-medium line-through mb-1">
                             ${formatPrice(cartTotal)}
                           </p>
                         )}
@@ -212,7 +224,7 @@ export default function Checkout() {
                   <div className="flex items-center gap-2 text-green-600 bg-green-50 p-3 rounded-xl border border-green-100 animate-in fade-in slide-in-from-top-1">
                     <CheckCircle2 size={18} />
                     <span className="text-sm font-bold">
-                      ¡Cupón aplicado! Tenés un {appliedCoupon.type === 'percentage' ? `${appliedCoupon.discount}%` : `$${formatPrice(appliedCoupon.discount)}`} de descuento.
+                      ¡Cupón aplicado! Tenés {appliedCoupon.type === 'percentage' ? `${appliedCoupon.discount}%` : `$${formatPrice(appliedCoupon.discount)}`} de descuento.
                     </span>
                   </div>
                 )}
@@ -244,8 +256,13 @@ export default function Checkout() {
                         <img src={item.image} alt={item.name} className="w-16 h-16 object-contain bg-white/5 rounded-2xl p-2 border border-white/10 group-hover:scale-105 transition-transform" />
                         <span className="absolute -top-2 -right-2 bg-gold-500 text-white text-[10px] w-6 h-6 flex items-center justify-center rounded-full font-bold shadow-lg shadow-gold-500/20 ring-2 ring-neutral-900">{item.quantity}</span>
                       </div>
-                      <div className="truncate">
-                        <p className="font-bold text-sm  text-white/90 truncate">{item.name}</p>
+                      <div className="truncate min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5 min-w-0">
+                          <p className="font-bold text-sm text-white/90 truncate">{item.name}</p>
+                          <Badge variant="gold" className="text-[9px] px-1.5 py-0.5 !text-[9px] h-auto shrink-0 ring-1 ring-white/10 shadow-none">
+                            {item.ml}ml
+                          </Badge>
+                        </div>
                         <p className="text-white/40 text-[11px] font-medium tracking-wide mt-1">${formatPrice(item.price * item.quantity)}</p>
                       </div>
                     </div>
@@ -271,7 +288,7 @@ export default function Checkout() {
                 </div>
                 {appliedCoupon && (
                   <div className="flex justify-between items-center text-green-400 text-sm font-bold">
-                    <span>Descuento ({appliedCoupon.code})</span>
+                    <span>Descuento {appliedCoupon.type === 'percentage' ? `(${appliedCoupon.discount}%)` : `(${appliedCoupon.code})`}</span>
                     <span>-${formatPrice(discountAmount)}</span>
                   </div>
                 )}
