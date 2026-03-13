@@ -404,7 +404,7 @@ export default function Checkout() {
 
         {/* Bottom Section: CTA */}
         <div className="mt-8 flex flex-col items-center">
-          <div className="w-full p-6 md:p-8 flex flex-col items-center gap-6">
+          <div className="w-full p-4 md:p-8 flex flex-col items-center gap-6">
             <div className="text-center space-y-2">
               <p className="text-neutral-500">Al hacer clic, serás redirigido a WhatsApp para coordinar el pago y la entrega.</p>
             </div>
@@ -416,7 +416,7 @@ export default function Checkout() {
               className="w-full md:max-w-md shadow-2xl shadow-gold-500/20"
             >
               <Icon icon="logos:whatsapp-icon" width="36" height="36" />
-              Finalizar pago por WhatsApp
+              Finalizar por WhatsApp
             </Button>
             
             <p className="text-xs text-neutral-400 font-medium tracking-wider">
