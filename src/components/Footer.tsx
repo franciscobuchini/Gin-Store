@@ -10,17 +10,17 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start space-y-4">
             <span className="text-[10px] font-black  tracking-[0.4em] text-gold-500/80">Seguinos</span>
             <div className="flex items-center gap-4">
-              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-pink-600 shadow-xl shadow-black/20 hover:shadow-pink-600/20">
-                <Icon icon="ph:instagram-logo-fill" width="22" height="22" />
+              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-pink-600">
+                <Icon icon="streamline:instagram-solid" width="22" height="22" />
               </a>
-              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-blue-600 shadow-xl shadow-black/20 hover:shadow-blue-600/20">
-                <Icon icon="ph:facebook-logo-fill" width="22" height="22" />
+              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-blue-600">
+                <Icon icon="streamline-logos:facebook-logo-2-solid" width="22" height="22" />
               </a>
-              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-white hover:text-black shadow-xl shadow-black/20">
-                <Icon icon="ph:tiktok-logo-fill" width="22" height="22" />
+              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-cyan-600">
+                <Icon icon="streamline:tiktok-solid" width="22" height="22" />
               </a>
-              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-green-600 shadow-xl shadow-black/20 hover:shadow-green-600/20">
-                <Icon icon="ph:whatsapp-logo-fill" width="22" height="22" />
+              <a href="#" className="p-3 bg-neutral-900 text-white border border-neutral-800 rounded-2xl transition-all hover:-translate-y-1 hover:bg-green-600">
+                <Icon icon="streamline-logos:whatsapp-logo-solid" width="22" height="22" />
               </a>
             </div>
           </div>
