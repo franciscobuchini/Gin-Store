@@ -13,7 +13,7 @@ export default function CategoryMobileNav() {
   }, []);
 
   return (
-    <nav className="md:hidden sticky top-[3.9rem] z-40 bg-white pt-1.5 mb-4 border-t border-white/10">
+    <nav className="md:hidden sticky top-[4rem] z-40 bg-white pt-1.5 mb-4 border-t border-white/10">
       <div className="flex overflow-x-auto no-scrollbar gap-6 px-4 pt-3 items-center flex-nowrap whitespace-nowrap">
         {uniqueCategories.map((cat) => {
           const isActive = cat === activeCategory;

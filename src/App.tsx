@@ -12,6 +12,7 @@ import NotFound from './pages/NotFound'
 import { useCart } from './hooks/useCart'
 import CartDropdown from './components/CartDropdown'
 import CategoryMobileNav from './components/CategoryMobileNav'
+import ScrollToTop from './components/ScrollToTop'
 
 function AppContent() {
   const { cartCount, isCartOpen } = useCart();
@@ -27,7 +28,7 @@ function AppContent() {
       
       {isCartOpen && <CartDropdown />}
       
-      <main className="flex-grow pt-16 md:pt-20">
+      <main className="flex-grow">
         {!isPresale && !isNotFound && <HeaderBanner />}
         
         {location.pathname === '/' && <CategoryMobileNav />}
@@ -55,6 +56,7 @@ function AppContent() {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <AppContent />
     </Router>
   );

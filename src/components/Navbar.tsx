@@ -58,7 +58,7 @@ export default function Navbar({ cartCount }: NavbarProps) {
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-50 bg-white">
+      <nav className="sticky top-0 w-full z-50 bg-white border-b border-neutral-100/50">
         <div className="w-full px-6">
           <div className="flex gap-2 items-center justify-between h-16 md:h-20">
             {/* Logo / Back Button */}
