@@ -7,8 +7,9 @@ import { formatPrice } from '../utils/format';
 import { Button } from '../components/Button';
 import { ShoppingCart, CheckCircle2, AlertCircle } from 'lucide-react';
 import Badge from '../components/Badge';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { COUPONS, type Coupon } from '../data/coupons';
+import { Select } from '../components/Select';
 
 import { Icon } from '@iconify/react';
 
@@ -17,6 +18,56 @@ export default function Checkout() {
   const [couponInput, setCouponInput] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
   const [couponError, setCouponError] = useState('');
+
+  const [provinces, setProvinces] = useState<Province[]>([]);
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [cities, setCities] = useState<City[]>([]);
+  const [selectedCity, setSelectedCity] = useState('');
+  const [isLoadingProvinces, setIsLoadingProvinces] = useState(false);
+  const [isLoadingCities, setIsLoadingCities] = useState(false);
+
+  interface Province { id: string; nombre: string }
+  interface City { id: string; nombre: string }
+
+  // Fetch provinces on mount
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      setIsLoadingProvinces(true);
+      try {
+        const res = await fetch('https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre');
+        const data = await res.json();
+        setProvinces(data.provincias.sort((a: Province, b: Province) => a.nombre.localeCompare(b.nombre)));
+      } catch (error) {
+        console.error("Error fetching provinces:", error);
+      } finally {
+        setIsLoadingProvinces(false);
+      }
+    };
+    fetchProvinces();
+  }, []);
+
+  // Fetch cities when province changes
+  useEffect(() => {
+    if (!selectedProvince) {
+      setCities([]);
+      return;
+    }
+
+    const fetchCities = async () => {
+      setIsLoadingCities(true);
+      setSelectedCity(''); // Reset city when province changes
+      try {
+        const res = await fetch(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${selectedProvince}&max=1000&campos=id,nombre`);
+        const data = await res.json();
+        setCities(data.localidades.sort((a: City, b: City) => a.nombre.localeCompare(b.nombre)));
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      } finally {
+        setIsLoadingCities(false);
+      }
+    };
+    fetchCities();
+  }, [selectedProvince]);
 
   // Still needed for sticky order summary calculations at the end of the file.
   const FREE_SHIPPING_THRESHOLD = 50000;
@@ -132,6 +183,14 @@ export default function Checkout() {
                         <span>-${formatPrice(discountAmount)}</span>
                       </div>
                     )}
+                    <div className="flex justify-between items-center text-neutral-500 font-medium">
+                      <span>Envío</span>
+                      {remaining === 0 ? (
+                        <span className="text-green-600 font-bold text-xs bg-green-50 px-2 py-0.5 rounded-full border border-green-100">GRATIS</span>
+                      ) : (
+                        <span className="text-neutral-900 border border-neutral-100 px-2 py-0.5 rounded-full text-xs bg-neutral-50 font-medium uppercase tracking-tight">A calcular</span>
+                      )}
+                    </div>
                     <div className="flex justify-between items-center text-lg font-black pt-2 border-t border-neutral-50">
                       <span>Total</span>
                       <div className="text-right">
@@ -174,21 +233,50 @@ export default function Checkout() {
                 <span className="flex items-center justify-center w-6 h-6 rounded-full bg-neutral-900 text-white text-xs">2</span>
                 Datos del destinatario
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-                <Input label="Nombre" placeholder="Tu nombre..." required />
-                <Input label="Apellido" placeholder="Tu apellido..." required />
+              <div className="grid grid-cols-1 sm:grid-cols-6 gap-x-4 md:gap-x-5 gap-y-1">
+                <div className="sm:col-span-6">
+                  <Input label="Nombre completo" placeholder="Tu nombre completo" required />
+                </div>
 
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-3">
                   <Input label="Calle" placeholder="Nombre de la calle" required />
                 </div>
-
-                <div>
+                <div className="sm:col-span-1">
                   <Input label="Número" placeholder="1234" required />
                 </div>
-                
-                <Input label="Departamento (opcional)" placeholder="Piso 1, Depto A" />
-                <Input label="Barrio (opcional)" placeholder="Nombre del barrio" />
-                <Input label="Ciudad / Localidad" placeholder="Tu ciudad" required />
+                <div className="sm:col-span-1">
+                  <Input label="Piso/Depto" placeholder="1A" />
+                </div>
+                <div className="sm:col-span-1">
+                  <Input label="Cod. Postal" placeholder="3000" required />
+                </div>
+
+                <div className="sm:col-span-3">
+                  <Select 
+                    label="Provincia" 
+                    value={selectedProvince}
+                    onChange={(e) => {
+                      setSelectedProvince(e.target.value);
+                      setSelectedCity(''); // Clear city while loading new ones
+                    }}
+                    options={provinces.map(p => ({ value: p.id, label: p.nombre }))}
+                    disabled={isLoadingProvinces}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-3">
+                  <Select 
+                    label="Ciudad / Localidad" 
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                    options={cities.map(c => ({ value: c.nombre, label: c.nombre }))}
+                    disabled={!selectedProvince || isLoadingCities}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-6">
+                  <Input label="Barrio (opcional)" placeholder="Nombre del barrio" />
+                </div>
               </div>
             </section>
 
@@ -282,17 +370,17 @@ export default function Checkout() {
               </div>
               
               <div className="mt-auto p-8 xl:p-10 border-t border-white/10 space-y-5 shrink-0">
-                <div className="flex justify-between items-center text-white/50 text-sm font-medium">
+                <div className="flex justify-between items-center text-white text-sm font-medium">
                   <span>Subtotal</span>
                   <span>${formatPrice(cartTotal)}</span>
                 </div>
                 {appliedCoupon && (
-                  <div className="flex justify-between items-center text-green-400 text-sm font-bold">
+                  <div className="flex justify-between items-center text-white text-sm font-medium">
                     <span>Descuento {appliedCoupon.type === 'percentage' ? `(${appliedCoupon.discount}%)` : `(${appliedCoupon.code})`}</span>
                     <span>-${formatPrice(discountAmount)}</span>
                   </div>
                 )}
-                <div className="flex justify-between items-center text-white/50 text-sm font-medium">
+                <div className="flex justify-between items-center text-white text-sm font-medium">
                   <span>Envío</span>
                   {remaining === 0 ? (
                     <span className="text-gold-400 font-black text-xs bg-gold-400/10 px-2 py-0.5 rounded-full border border-gold-400/20 ">GRATIS</span>
