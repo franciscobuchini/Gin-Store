@@ -88,7 +88,7 @@ export default function Checkout() {
               </h2>
               <div className="space-y-4">
                 {cart.map((item) => (
-                  <div key={item.id} className="grid grid-cols-[1fr_auto_85px] gap-4 items-center text-sm py-1">
+                  <div key={item.id} className="flex justify-between gap-4 items-center text-sm py-1">
                     <div className="flex items-center gap-3 min-w-0">
                       <div className="relative shrink-0">
                         <img src={item.image} alt={item.name} className="w-14 h-14 object-contain bg-neutral-50 rounded-xl p-2 border border-neutral-100" />
@@ -96,7 +96,7 @@ export default function Checkout() {
                       </div>
                       <div className="truncate">
                         <p className="font-bold text-neutral-900  truncate">{item.name}</p>
-                        <p className="text-neutral-500 text-xs">${formatPrice(item.price)}</p>
+                        <p className="text-neutral-500 text-xs">${formatPrice(item.price * item.quantity)}</p>
                       </div>
                     </div>
                     
@@ -111,9 +111,6 @@ export default function Checkout() {
                       <Icon icon="ph:plus-bold" width="14" height="14" />
                     </Button>
 
-                    <span className="font-bold text-neutral-900 text-right">
-                      ${formatPrice(item.price * item.quantity)}
-                    </span>
                   </div>
                 ))}
                 

@@ -96,7 +96,7 @@ export default function Presale() {
               <span className="text-4xl md:text-6xl font-black text-neutral-900 ">
                 ${formatPrice(product.price)}
               </span>
-              <span className="text-neutral-400 text-lg md:text-2xl font-medium">
+              <span className="text-neutral-400 line-through text-lg md:text-2xl font-medium">
                 ${formatPrice(product.price * 1.25)}
               </span>
             </div>
