@@ -15,7 +15,7 @@ export default function Badge({
     neutral: 'text-neutral-400 border border-neutral-300',
     gold: 'bg-gold-300/90 backdrop-blur-sm text-black border-0 shadow-lg shadow-gold-500/20  font-bold',
     success: 'bg-green-50 text-green-700 border border-green-200 font-bold',
-    danger: 'bg-red-500 text-white border font-bold'
+    danger: 'bg-red-500 text-white font-bold'
   };
 
   return (

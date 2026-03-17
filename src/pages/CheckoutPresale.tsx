@@ -14,6 +14,9 @@ export default function CheckoutPresale() {
   const [couponInput, setCouponInput] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
 
+  // Find the presale item specifically to avoid issues with other items in cart
+  const presaleItem = cart.find(item => item.id === 999) || cart[0];
+
   const calculateDiscount = () => {
     if (!appliedCoupon) return 0;
     if (appliedCoupon.type === 'percentage') {
@@ -68,31 +71,31 @@ export default function CheckoutPresale() {
             {/* Product Brief */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 pb-6 border-b border-neutral-50">
               <div className="shrink-0 p-3 bg-neutral-50 rounded-xl border border-neutral-100 w-24 h-24 flex items-center justify-center">
-                <img src={presaleBottle} alt={cart[0]?.name} className="w-full h-full object-contain" />
+                <img src={presaleBottle} alt={presaleItem?.name} className="w-full h-full object-contain" />
               </div>
               <div className="flex-grow text-center sm:text-left space-y-4">
-                <h2 className="font-bold text-neutral-900 text-lg">{cart[0]?.name}</h2>
-                <p className="text-xs text-neutral-400 font-medium">{cart[0]?.ml}ml • Edición Lanzamiento</p>
+                <h2 className="font-bold text-neutral-900 text-lg">{presaleItem?.name}</h2>
+                <p className="text-xs text-neutral-400 font-medium">750ml • Edición Lanzamiento</p>
                 <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 mt-4">
                   <div className="flex items-center bg-neutral-50 rounded-lg border border-neutral-100 p-0.5">
                     <button 
                       type="button"
-                      onClick={() => updateQuantity(cart[0]?.id, -1)}
+                      onClick={() => updateQuantity(presaleItem?.id, -1)}
                       className="w-9 h-9 flex items-center justify-center hover:bg-white rounded-md transition-colors disabled:opacity-20"
-                      disabled={cart[0]?.quantity <= 1}
+                      disabled={presaleItem?.quantity <= 1}
                     >
                       <Icon icon="ph:minus" width="16" />
                     </button>
-                    <span className="w-10 text-center font-bold text-sm">{cart[0]?.quantity}</span>
+                    <span className="w-10 text-center font-bold text-sm">{presaleItem?.quantity}</span>
                     <button 
                       type="button"
-                      onClick={() => updateQuantity(cart[0]?.id, 1)}
+                      onClick={() => updateQuantity(presaleItem?.id, 1)}
                       className="w-9 h-9 flex items-center justify-center hover:bg-white rounded-md transition-colors"
                     >
                       <Icon icon="ph:plus" width="16" />
                     </button>
                   </div>
-                  <span className="font-black text-lg text-neutral-900 tabular-nums">${formatPrice(cart[0]?.price * cart[0]?.quantity)}</span>
+                  <span className="font-black text-lg text-neutral-900 tabular-nums">${formatPrice(presaleItem?.price * presaleItem?.quantity)}</span>
                 </div>
               </div>
             </div>

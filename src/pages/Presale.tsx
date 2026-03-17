@@ -8,7 +8,7 @@ import { formatPrice } from '../utils/format';
 import AddToCartSection from '../components/AddToCartSection';
 
 export default function Presale() {
-  const { addToCart } = useCart();
+  const { addToCart, clearCart } = useCart();
   const navigate = useNavigate();
   const [cartState, setCartState] = useState<'idle' | 'loading' | 'added'>('idle');
   const [quantity, setQuantity] = useState(1);
@@ -27,6 +27,7 @@ export default function Presale() {
     if (cartState !== 'idle') return;
     setCartState('loading');
     setTimeout(() => {
+      clearCart();
       addToCart(product, quantity);
       setCartState('added');
       // Redirect to checkout after a brief moment to show the success state
