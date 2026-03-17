@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 export default function HeaderBanner() {
   const location = useLocation();
   
-  if (location.pathname === '/presale') return null;
+  if (location.pathname === '/presale' || location.pathname === '/contacto') return null;
   
   let title = "Nuestra Colección";
   let subtitle = "Gines artesanales destilados con pasión, diseñados para el paladar más exigente.";

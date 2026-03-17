@@ -83,9 +83,9 @@ export default function Navbar({ cartCount }: NavbarProps) {
             {/* Navigation Links - Desktop */}
             <div className="hidden md:flex items-center space-x-8">
               <Link to="/presale" className={`font-medium transition-colors ${location.pathname === '/presale' ? 'text-gold-600' : 'text-neutral-700 hover:text-neutral-900'}`}>Preventa</Link>
-              <span>-</span>
-              <Link to="/" className={`font-medium transition-colors ${location.pathname === '/' ? 'text-gold-600' : 'text-neutral-700 hover:text-neutral-900'}`}>Tienda</Link>
-              <Link to="/promos" className={`font-medium transition-colors ${location.pathname === '/promos' ? 'text-gold-600' : 'text-neutral-700 hover:text-neutral-900'}`}>Promos</Link>
+              {/* <span>-</span>
+              <Link to="/tienda" className={`font-medium transition-colors ${location.pathname === '/tienda' ? 'text-gold-600' : 'text-neutral-700 hover:text-neutral-900'}`}>Tienda</Link>
+              <Link to="/promos" className={`font-medium transition-colors ${location.pathname === '/promos' ? 'text-gold-600' : 'text-neutral-700 hover:text-neutral-900'}`}>Promos</Link> */}
               <Link to="/contacto" className={`font-medium transition-colors ${location.pathname === '/contacto' ? 'text-gold-600' : 'text-neutral-700 hover:text-neutral-900'}`}>Contacto</Link>
             </div>
 
@@ -140,8 +140,8 @@ export default function Navbar({ cartCount }: NavbarProps) {
         {/* Mobile Menu Panel */}
         <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white  ${isMenuOpen ? 'max-h-[80vh] shadow-xl' : 'max-h-0'}`}>
           <div className="px-6 py-8 space-y-4">
-            <Link to="/" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/' ? 'text-gold-600' : 'text-neutral-900'}`}>Tienda</Link>
-            <Link to="/promos" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/promos' ? 'text-gold-600' : 'text-neutral-500'}`}>Promos</Link>
+            {/* <Link to="/tienda" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/tienda' ? 'text-gold-600' : 'text-neutral-900'}`}>Tienda</Link>
+            <Link to="/promos" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/promos' ? 'text-gold-600' : 'text-neutral-500'}`}>Promos</Link> */}
             <Link to="/presale" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/presale' ? 'text-gold-600' : 'text-neutral-500'}`}>Preventa</Link>
             <Link to="/contacto" onClick={() => setIsMenuOpen(false)} className={`block text-lg font-bold ${location.pathname === '/contacto' ? 'text-gold-600' : 'text-neutral-500'}`}>Contacto</Link>
             <Button 

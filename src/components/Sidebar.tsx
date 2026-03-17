@@ -20,9 +20,9 @@ export default function Sidebar() {
     initializeCategories(uniqueCategories);
   }, [uniqueCategories, initializeCategories]);
 
-  if (location.pathname === '/presale') return null;
+  if (location.pathname === '/' || location.pathname === '/presale') return null;
 
-  const isHome = location.pathname === '/';
+  const isHome = location.pathname === '/tienda';
   const isPromos = location.pathname === '/promos';
 
   if (!isHome && !isPromos) return null;
