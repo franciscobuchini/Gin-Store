@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { formatPrice } from '../utils/format';
 
 import { useState } from 'react';
+import presaleBottle from '../assets/GinBottle.png';
 import { COUPONS, type Coupon } from '../data/coupons';
 import WhatsAppButton from '../components/WhatsAppButton';
 
@@ -67,7 +68,7 @@ export default function CheckoutPresale() {
             {/* Product Brief */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 pb-6 border-b border-neutral-50">
               <div className="shrink-0 p-3 bg-neutral-50 rounded-xl border border-neutral-100 w-24 h-24 flex items-center justify-center">
-                <img src={cart[0]?.image} alt={cart[0]?.name} className="w-full h-full object-contain" />
+                <img src={presaleBottle} alt={cart[0]?.name} className="w-full h-full object-contain" />
               </div>
               <div className="flex-grow text-center sm:text-left space-y-4">
                 <h2 className="font-bold text-neutral-900 text-lg">{cart[0]?.name}</h2>
