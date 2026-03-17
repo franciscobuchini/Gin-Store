@@ -8,10 +8,10 @@ export default function handler(req, res) {
   };
 
   const COUPONS = [
-    { code: 'GIN10', discount: 10, type: 'percentage' },
-    { code: 'GIFT5000', discount: 5000, type: 'fixed' },
-    { code: 'WELCOME', discount: 15, type: 'percentage' },
-    { code: 'PROMO20', discount: 20, type: 'percentage' }
+    { code: 'GIN10', discount: 10, type: 'percentage', owner: 'Interno' },
+    { code: 'GIFT5000', discount: 5000, type: 'fixed', owner: 'Matias' },
+    { code: 'WELCOME', discount: 15, type: 'percentage', owner: 'Marketing' },
+    { code: 'PROMO20', discount: 20, type: 'percentage', owner: 'Influencer1' }
   ];
 
   const { method } = req;
@@ -26,7 +26,9 @@ export default function handler(req, res) {
     const found = COUPONS.find(c => c.code === code?.toUpperCase());
 
     if (found) {
-      return res.status(200).json({ valid: true, coupon: found });
+      // Devolvemos solo lo necesario para el front, el 'owner' se queda en el server
+      const { owner, ...publicCoupon } = found;
+      return res.status(200).json({ valid: true, coupon: publicCoupon });
     } else {
       return res.status(200).json({ valid: false });
     }
