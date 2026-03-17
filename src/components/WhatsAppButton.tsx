@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import { Button } from './Button';
 import { formatPrice } from '../utils/format';
 import type { CartItem } from '../types/product';
-import type { Coupon } from '../data/coupons';
+import type { Coupon } from '../types/coupon';
 
 interface WhatsAppButtonProps {
   cartItems: CartItem[];

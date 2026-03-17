@@ -1,8 +1,8 @@
 import { useCart } from '../hooks/useCart';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import presaleBottle from '../assets/GinBottle.png';
+import presaleBottle from '../assets/GinBottle.webp';
 import Badge from '../components/Badge';
 import { formatPrice } from '../utils/format';
 import AddToCartSection from '../components/AddToCartSection';
@@ -12,13 +12,23 @@ export default function Presale() {
   const navigate = useNavigate();
   const [cartState, setCartState] = useState<'idle' | 'loading' | 'added'>('idle');
   const [quantity, setQuantity] = useState(1);
+  const [price, setPrice] = useState(18500); // Precio por defecto mientras carga
+
+  useEffect(() => {
+    fetch('/api/config')
+      .then(res => res.json())
+      .then(data => {
+        if (data.price) setPrice(data.price);
+      })
+      .catch(err => console.error('Error fetching price:', err));
+  }, []);
 
   // Producto específico para la preventa
   const product = {
     id: 999,
     name: "Gin sin Nombre",
     image: presaleBottle,
-    price: 18500,
+    price: price, // Usamos el precio que viene de la API
     ml: 750,
     flavor: ""
   };

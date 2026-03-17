@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { formatPrice } from '../utils/format';
 
 import { useState } from 'react';
-import presaleBottle from '../assets/GinBottle.png';
-import { COUPONS, type Coupon } from '../data/coupons';
+import presaleBottle from '../assets/GinBottle.webp';
+import type { Coupon } from '../types/coupon';
 import WhatsAppButton from '../components/WhatsAppButton';
 
 import { Icon } from '@iconify/react';
@@ -13,6 +13,7 @@ export default function CheckoutPresale() {
   const { cart, cartTotal, updateQuantity } = useCart();
   const [couponInput, setCouponInput] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
+  const [isValidating, setIsValidating] = useState(false);
 
   // Find the presale item specifically to avoid issues with other items in cart
   const presaleItem = cart.find(item => item.id === 999) || cart[0];
@@ -28,15 +29,30 @@ export default function CheckoutPresale() {
   const discountAmount = calculateDiscount();
   const finalTotal = cartTotal - discountAmount;
 
-  const handleVerifyCoupon = () => {
+  const handleVerifyCoupon = async () => {
     const code = couponInput.trim().toUpperCase();
     if (!code) return;
 
-    const found = COUPONS.find(c => c.code === code);
-    if (found) {
-      setAppliedCoupon(found);
-    } else {
-      setAppliedCoupon(null);
+    setIsValidating(true);
+    try {
+      const response = await fetch('/api/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      });
+      const data = await response.json();
+      
+      if (data.valid) {
+        setAppliedCoupon(data.coupon);
+      } else {
+        setAppliedCoupon(null);
+        alert('Cupón no válido');
+      }
+    } catch (error) {
+      console.error('Error validating coupon:', error);
+      alert('Error en el servidor');
+    } finally {
+      setIsValidating(false);
     }
   };
 
@@ -133,9 +149,10 @@ export default function CheckoutPresale() {
                 <button 
                   type="button" 
                   onClick={handleVerifyCoupon}
-                  className="w-full sm:w-auto px-8 bg-neutral-900 text-white rounded-xl h-14 text-sm font-bold hover:bg-neutral-800 transition-colors"
+                  disabled={isValidating}
+                  className="w-full sm:w-auto px-8 bg-neutral-900 text-white rounded-xl h-14 text-sm font-bold hover:bg-neutral-800 transition-colors disabled:opacity-50"
                 >
-                  Aplicar
+                  {isValidating ? 'Verificando...' : 'Aplicar'}
                 </button>
               </div>
 
