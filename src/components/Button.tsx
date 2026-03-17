@@ -31,7 +31,7 @@ export function Button({
     neutral: "bg-neutral-900 text-white hover:bg-gold-600",
     success: "bg-green-500 text-white !cursor-default",
     loading: "bg-neutral-200 text-neutral-500 !cursor-default",
-    ghost: "bg-transparent text-neutral-500 hover:text-neutral-900 font-medium tracking-normal",
+    ghost: "bg-transparent text-neutral-500 hover:text-neutral-900 font-medium",
     outline: "bg-transparent border border-neutral-200 text-neutral-700 hover:border-gold-500 hover:text-gold-600",
   };
 
