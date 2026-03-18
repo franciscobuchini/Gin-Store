@@ -50,7 +50,7 @@ export default function StockAlertModal() {
           <div className="bg-neutral-50 rounded-2xl p-6 border border-neutral-100">
             <div className="flex flex-col items-center">
               <span className="text-4xl font-black italic text-neutral-900 tracking-tighter tabular-nums">
-                5
+                20
               </span>
               <span className="text-[10px] uppercase font-bold text-neutral-400 tracking-widest">
                 Botellas disponibles
