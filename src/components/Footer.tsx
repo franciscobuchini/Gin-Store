@@ -14,7 +14,7 @@ export default function Footer() {
           <a href="https://www.instagram.com/ginsinnombre" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors">
             <Icon icon="ph:instagram-logo" width="24" height="24" />
           </a>
-          <a href="#" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors">
+          <a href="https://wa.me/5493424666830" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors">
             <Icon icon="ph:whatsapp-logo" width="24" height="24" />
           </a>
         </div>
