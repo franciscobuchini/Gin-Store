@@ -27,7 +27,7 @@ export default function WhatsAppButton({
     
     const message = `Hola! Quiero finalizar mi compra de preventa:%0A%0A${items}${couponText}${discountText}%0A%0A*Total Final: $${formatPrice(finalTotal)}*`;
     
-    window.open(`https://wa.me/5493426395442?text=${message}`, '_blank');
+    window.open(`https://wa.me/5493424666830?text=${message}`, '_blank');
   };
 
   return (

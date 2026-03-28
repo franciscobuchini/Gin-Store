@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { PRODUCT_DATA, COUPONS } from './api/_constants'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,13 +13,6 @@ export default defineConfig({
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           if (req.url === '/api/config') {
-            const PRODUCT_DATA = { price: 18500 };
-            const COUPONS = [
-              { code: 'GIN10', discount: 10, type: 'percentage', owner: 'Interno' },
-              { code: 'GIFT5000', discount: 5000, type: 'fixed', owner: 'Matias' },
-              { code: 'WELCOME', discount: 15, type: 'percentage', owner: 'Marketing' },
-              { code: 'PROMO20', discount: 20, type: 'percentage', owner: 'Influencer1' }
-            ];
 
             if (req.method === 'GET') {
               res.setHeader('Content-Type', 'application/json');
@@ -32,16 +26,18 @@ export default defineConfig({
               req.on('end', () => {
                 try {
                   const { code } = JSON.parse(body);
-                  const found = COUPONS.find(c => c.code === code?.toUpperCase());
+                  const found = COUPONS.find((c: any) => c.code.toUpperCase() === code?.toUpperCase());
                   res.setHeader('Content-Type', 'application/json');
                   
                   if (found) {
-                    const { owner, ...publicCoupon } = found;
+                    const publicCoupon = { ...found };
+                    // @ts-ignore - any type from JS
+                    delete publicCoupon.owner;
                     res.end(JSON.stringify({ valid: true, coupon: publicCoupon }));
                   } else {
                     res.end(JSON.stringify({ valid: false }));
                   }
-                } catch (e) {
+                } catch {
                   res.statusCode = 400;
                   res.end('Invalid JSON');
                 }

@@ -12,7 +12,7 @@ export default function Presale() {
   const navigate = useNavigate();
   const [cartState, setCartState] = useState<'idle' | 'loading' | 'added'>('idle');
   const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(18500); // Precio por defecto mientras carga
+  const [price, setPrice] = useState(17900); // Precio por defecto mientras carga
 
   useEffect(() => {
     fetch('/api/config')
@@ -113,15 +113,13 @@ export default function Presale() {
           </div>
 
           <div className="pt-2 sm:pt-4 space-y-6 sm:space-y-8">
-            <div className="flex flex-wrap items-end gap-4 sm:gap-6">
-              <span className="text-4xl sm:text-4xl font-black text-neutral-900 tracking-tighter tabular-nums leading-none">
+            <div className="flex flex-wrap items-end gap-4 sm:gap-6 text-neutral-900">
+              <span className="text-4xl sm:text-4xl font-black tracking-tighter tabular-nums leading-none">
                 ${formatPrice(product.price)}
               </span>
-              <div className="flex flex-col">
-                <span className="text-neutral-300 line-through text-lg sm:text-xl font-bold italic tracking-tighter leading-none">
-                  ${formatPrice(product.price * 1.25)}
-                </span>
-              </div>
+              <span className="text-neutral-400 line-through text-lg sm:text-xl font-bold italic tracking-tighter leading-none pb-1">
+                ${formatPrice(28000)}
+              </span>
             </div>
 
             <AddToCartSection

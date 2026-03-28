@@ -167,6 +167,11 @@ export default function CheckoutPresale() {
             </div>
           </div>
         </div>
+
+        {/* Pickup Info */}
+        <p className="text-center text-neutral-500 text-sm leading-relaxed px-4">
+          Los productos adquiridos estarán disponibles para retiro a partir del 11 de abril en todas las tiendas de <a href="https://maps.app.goo.gl/JKkejAzqNWLUybxz9" target="_blank" rel="noopener noreferrer" className="font-bold hover:text-gold-600 transition-colors text-neutral-700">Gold Burger</a>. Agradecemos su comprensión.
+        </p>
       </div>
     </main>
   );
