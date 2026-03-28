@@ -26,12 +26,12 @@ export default defineConfig({
               req.on('end', () => {
                 try {
                   const { code } = JSON.parse(body);
-                  const found = COUPONS.find((c: any) => c.code.toUpperCase() === code?.toUpperCase());
+                  const found = COUPONS.find((c) => c.code.toUpperCase() === code?.toUpperCase());
                   res.setHeader('Content-Type', 'application/json');
                   
                   if (found) {
                     const publicCoupon = { ...found };
-                    // @ts-ignore - any type from JS
+                    // @ts-expect-error - any type from JS
                     delete publicCoupon.owner;
                     res.end(JSON.stringify({ valid: true, coupon: publicCoupon }));
                   } else {

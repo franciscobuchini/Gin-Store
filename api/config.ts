@@ -1,7 +1,19 @@
-// @ts-nocheck
-import { PRODUCT_DATA, COUPONS } from './_constants';
+import { PRODUCT_DATA, COUPONS, type Coupon } from './_constants.js';
 
-export default function handler(req: any, res: any) {
+interface VercelRequest {
+  method?: string;
+  body?: {
+    code?: string;
+  };
+}
+
+interface VercelResponse {
+  status: (code: number) => VercelResponse;
+  json: (data: unknown) => VercelResponse;
+  end: () => void;
+}
+
+export default function handler(req: VercelRequest, res: VercelResponse) {
   const { method } = req;
 
   if (method === 'GET') {
@@ -10,10 +22,10 @@ export default function handler(req: any, res: any) {
 
   if (method === 'POST') {
     const { code } = req.body || {};
-    const found = COUPONS.find((c: any) => c.code.toUpperCase() === code?.toUpperCase());
+    const found = COUPONS.find((c: Coupon) => c.code.toUpperCase() === code?.toUpperCase());
 
     if (found) {
-      const publicCoupon = { ...found };
+      const publicCoupon = { ...found } as Record<string, unknown>;
       delete publicCoupon.owner;
       return res.status(200).json({ valid: true, coupon: publicCoupon });
     } else {
