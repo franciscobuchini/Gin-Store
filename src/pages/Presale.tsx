@@ -118,7 +118,7 @@ export default function Presale() {
                 ${formatPrice(product.price)}
               </span>
               <span className="text-neutral-400 line-through text-lg sm:text-xl font-bold italic tracking-tighter leading-none pb-1">
-                ${formatPrice(28000)}
+                ${formatPrice(22000)}
               </span>
             </div>
 
